@@ -1,0 +1,112 @@
+<div
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  "
+>
+  <div style="background: lightblue">
+    <div
+      [ngClass]="{ 'right-panel-active': isRightPanelActive }"
+      class="container"
+      id="container"
+    >
+      <div class="form-container sign-up-container">
+        <form action="#">
+          <h1>Create Account 🚀</h1>
+          <span>or use your email for registration</span>
+
+          <input
+            name="signupName"
+            [(ngModel)]="signUpObj.username"
+            type="text"
+            placeholder="👤 Name"
+            required
+          />
+
+          <input
+            name="signupEmail"
+            [(ngModel)]="signUpObj.email"
+            type="email"
+            placeholder="📧 Email"
+            required
+          />
+
+          <input
+            name="signupPassword"
+            [(ngModel)]="signUpObj.password"
+            type="password"
+            placeholder="🔒 Password"
+            required
+          />
+
+          <button (click)="onSignup()" type="submit">Sign Up</button>
+        </form>
+      </div>
+
+      <!-- Sign In Form -->
+
+      <div class="form-container sign-in-container">
+        <form action="#">
+          <h1>Sign In 👋</h1>
+
+          <span>or use your account</span>
+
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="loginObj.email"
+            placeholder="📧 Email"
+            required
+          />
+
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="loginObj.password"
+            placeholder="🔒 Password"
+            required
+          />
+
+          <a href="#">Forgot your password? 🤔</a>
+
+          <button type="submit" (click)="onLogin()">Sign In</button>
+        </form>
+      </div>
+
+      <!-- Overlay Container -->
+
+      <div class="overlay-container">
+        <div class="overlay">
+          <!-- Overlay Left Panel (Shown when Sign In is active) -->
+
+          <div class="overlay-panel overlay-left">
+            <h1>Welcome Back! 🎉</h1>
+
+            <p>
+              To keep connected with us please login with your personal info
+            </p>
+
+            <button (click)="showSignInPanel()" class="ghost" id="signIn">
+              Sign In
+            </button>
+          </div>
+
+          <!-- Overlay Right Panel (Shown when Sign Up is active) -->
+
+          <div class="overlay-panel overlay-right">
+            <h1>Hello, Friend! ✨</h1>
+
+            <p>Enter your personal details and start your journey with us</p>
+
+            <button (click)="showSignUpPanel()" class="ghost" id="signUp">
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="script.js"></script>
