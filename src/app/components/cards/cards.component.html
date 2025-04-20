@@ -1,0 +1,23 @@
+<div class="container" id="card-container">
+    <div class="card" *ngFor="let card of businessCardsData" (click)="onCardTap(card)">
+      <div class="card-inner">
+        <div class="front side">
+          <img [src]="card.photo" alt="User Photo" class="logo" />
+        </div>
+        <div class="back side">
+          <div>
+            <p>{{ card.name }}</p>
+            <p>{{ card.gender }}</p>
+          </div>
+          <div></div>
+          <div class="info">
+            <p><span class="property">Email:</span> {{ card.email }}</p>
+            <p><span class="property">Phone:</span> {{ card.phone }}</p>
+            <p>
+              <span class="property">Date Of Birth:</span> {{ card.dateOfBirth }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

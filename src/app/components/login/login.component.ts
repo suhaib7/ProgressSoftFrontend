@@ -5,12 +5,13 @@ import { LoginModel } from '../../model/LoginModel';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SignupModel } from '../../model/SignupModel';
+import { AlertService } from '../../services/AlertService';
 
 @Component({
   selector: 'app-login',
   imports: [
     FormsModule,
-    CommonModule  // Add this import to the component
+    CommonModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
@@ -18,7 +19,6 @@ import { SignupModel } from '../../model/SignupModel';
 })
 
 export class LoginComponent implements OnInit {
-  // Add this flag to track panel state
   isRightPanelActive = false;
 
   loginObj: LoginModel = {
@@ -32,21 +32,17 @@ export class LoginComponent implements OnInit {
     password: ''
   }
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient, private alert: AlertService) {}
 
   ngOnInit(): void {
-    // We'll move the DOM manipulation to our toggle methods
   }
 
-  // Add these methods to toggle panel state
   showSignUpPanel() {
     this.isRightPanelActive = true;
-    console.log('Sign Up button clicked - adding class');
   }
 
   showSignInPanel() {
     this.isRightPanelActive = false;
-    console.log('Sign In button clicked - removing class');
   }
 
   onLogin() {
@@ -55,14 +51,13 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           localStorage.setItem('token', res.token);
-          // Consider adding redirect here after successful login
-          this.router.navigate(['/dashboard']); // Replace with appropriate route
+          this.router.navigate(['/home']);
         },
         error: (err) => {
-          alert('Wrong Credentials');
+          this.alert.openAlertDialogAsync('Wrong Credentials');
         }
       });
-  }
+  }  
 
   onSignup(){
     this.http
@@ -70,11 +65,10 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           localStorage.setItem('token', res.token);
-          // Consider adding redirect here after successful login
-          this.router.navigate(['/dashboard']); // Replace with appropriate route
+          this.router.navigate(['/home']);
         },
         error: (err) => {
-          alert('Wrong Credentials');
+          this.alert.openAlertDialogAsync('Email already exists!');
         }
       });
   }

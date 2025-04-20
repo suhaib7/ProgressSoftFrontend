@@ -1,0 +1,74 @@
+<div class="container">
+  <!-- Filter Section -->
+  <div class="filter-container mb-4 p-4 bg-gray-100 rounded-lg shadow">
+    <h3 class="text-lg font-bold mb-3">Filter Business Cards</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <!-- Name Filter -->
+      <div class="form-group">
+        <label for="nameFilter" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input type="text" id="nameFilter" [(ngModel)]="filters.name" class="w-full p-2 border rounded" placeholder="Filter by name">
+      </div>
+      
+      <!-- Gender Filter -->
+      <div class="form-group">
+        <label for="genderFilter" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+        <select id="genderFilter" [(ngModel)]="filters.gender" class="w-full p-2 border rounded">
+          <option value="">All</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>  
+        </select>
+      </div>
+      
+      <!-- Date of Birth Filter -->
+      <div class="form-group">
+        <label for="dobFilter" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+        <input type="date" id="dobFilter" [(ngModel)]="filters.dob" class="w-full p-2 border rounded">
+      </div>
+      
+      <!-- Email Filter -->
+      <div class="form-group">
+        <label for="emailFilter" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input type="text" id="emailFilter" [(ngModel)]="filters.email" class="w-full p-2 border rounded" placeholder="Filter by email">
+      </div>
+      
+      <!-- Phone Filter -->
+      <div class="form-group">
+        <label for="phoneFilter" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+        <input type="text" id="phoneFilter" [(ngModel)]="filters.phone" class="w-full p-2 border rounded" placeholder="Filter by phone">
+      </div>
+    </div>
+    
+    <!-- Filter Action Buttons -->
+    <div class="mt-4 flex space-x-3">
+      <button (click)="applyFilters()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Apply Filters</button>
+      <button (click)="resetFilters()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Reset</button>
+    </div>
+  </div>
+
+  <!-- Business Cards Container -->
+  <div class="container" id="card-container">
+    <div class="card" *ngFor="let card of businessCardsData" (click)="onCardTap(card)">
+      <div class="card-inner">
+        <div class="front side">
+          <img [src]="card.photo" alt="User Photo" class="logo" />
+        </div>
+        <div class="back side">
+          <div>
+            <p>{{ card.name }}</p>
+            <p>{{ card.gender }}</p>
+          </div>
+          <div></div>
+          <div class="info">
+            <p><span class="property">Email:</span> {{ card.email }}</p>
+            <p><span class="property">Phone:</span> {{ card.phone }}</p>
+            <p>
+              <span class="property">Date Of Birth:</span> {{ card.dateOfBirth }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-file-import></app-file-import>

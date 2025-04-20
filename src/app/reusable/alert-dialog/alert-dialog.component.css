@@ -1,0 +1,24 @@
+.dialog-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically if you want */
+    text-align: center;
+    padding: 24px;
+  }
+  
+  .dialog-icon {
+    font-size: 48px;
+    color: #4caf50; /* Optional: make it green for success */
+    margin-bottom: 16px;
+  }
+  
+  .dialog-content {
+    margin-bottom: 24px;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: center;
+  }
+  

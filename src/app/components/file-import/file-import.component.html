@@ -1,0 +1,90 @@
+<div id="app">
+    <div class="h2Div"><h2>Upload Files</h2></div>
+    <div class="container" style="display: flex;justify-content: center;">
+      <div class="file-input-box">
+        <div class="wrapper-file-input">
+          <div class="input-box" (click)="openFileInput()">
+            <h4>
+              <i class="fa-solid fa-upload"></i>
+              Choose File to upload
+            </h4>
+            <input
+              #fileInput
+              type="file"
+              hidden
+              (change)="handleFileChange($event)"
+              accept=".csv,.xml"
+            />
+          </div>
+          <small>Files Supported: CSV, XML</small>
+        </div>
+  
+        <div class="wrapper-file-section">
+          <div class="selected-files" *ngIf="selectedFiles.length">
+            <h5>Selected Files</h5>
+            <ul
+              class="file-list"
+              [style.max-height]="selectedFiles.length ? '220px' : 'auto'"
+            >
+              <li class="item" *ngFor="let file of selectedFiles; let i = index">
+                <span class="name">
+                  {{ file.name }} ({{ formatFileSize(file.size) }})
+                </span>
+                <div class="remove" (click)="removeFile(i)">
+                  <i class="fa-solid fa-trash-can"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-backdrop" *ngIf="showModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Business Cards Preview</h3>
+        <div class="close-btn" (click)="closeModal()">
+          <i class="fa-solid fa-times"></i>
+        </div>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Loading indicator -->
+        <div class="loading-container" *ngIf="isLoading">
+          <div class="spinner"></div>
+          <p>Processing file...</p>
+        </div>
+        
+        <!-- Business cards preview -->
+        <div class="business-cards-container" *ngIf="!isLoading && businessCards.length > 0">
+          <div class="business-cards-grid">
+            <div class="business-card" *ngFor="let card of businessCards">
+              <div class="card-content">
+                <h4>{{ card.name }}</h4>
+                <p *ngIf="card.email">{{ card.email }}</p>
+                <p *ngIf="card.phone">{{ card.phone }}</p>
+                <p *ngIf="card.address">{{ card.address }}</p>
+                <p *ngIf="card.gender">{{ card.gender }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- No cards message -->
+        <div class="no-cards" *ngIf="!isLoading && businessCards.length === 0">
+          <p>No business cards found in the file.</p>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closeModal()">Cancel</button>
+        <button class="import-btn" (click)="importCards()" [disabled]="isLoading || businessCards.length === 0">
+          Import Cards
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
