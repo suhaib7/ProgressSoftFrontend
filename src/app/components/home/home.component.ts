@@ -41,7 +41,9 @@ export class HomeComponent implements OnInit {
     email: null,
     phone: null
   };
-  
+
+  exportFormat: string = 'csv';
+
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.token = localStorage.getItem('token')?.toString() || '';
@@ -95,6 +97,58 @@ export class HomeComponent implements OnInit {
       phone: null
     };
     this.loadBusinessCards();
+  }
+
+  exportBusinessCards() {
+    const filteredCardIds = this.businessCardsData.map(card => card.id);
+    
+    // Build the API URL with the same pattern as your working delete API
+    const baseUrl = 'https://localhost:7137/api/BusinessCard/export';
+    const url = `${baseUrl}?format=${this.exportFormat}&cardIds=${filteredCardIds.join(',')}`;
+    
+    // Use HttpClient to make a GET request with Authorization header
+    this.http.get(url, {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.token}`
+      }),
+      responseType: 'blob',
+      observe: 'response'
+    }).subscribe({
+      next: (response) => {
+        // Get filename from content-disposition header if available
+        const contentDisposition = response.headers.get('content-disposition') || '';
+        let fileName = `BusinessCards.${this.exportFormat}`;
+        
+        // Extract filename from Content-Disposition header
+        if (contentDisposition) {
+          const matches = /filename[^;=\n]*=(['"]?)([^"';\n]*)(\1)/i.exec(contentDisposition);
+          if (matches && matches.length >= 3) {
+            fileName = matches[2];
+          }
+        }
+        
+        // Create a download link and trigger it
+        const blob = response.body;
+        if (blob) {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+          
+          this.alert.openAlertDialogAsync('Business cards exported successfully');
+        } else {
+          this.alert.openAlertDialogAsync('Failed to export business cards. Blob is null.');
+        }
+      },
+      error: (err) => {
+        console.error('Error exporting business cards:', err);
+        this.alert.openAlertDialogAsync('Failed to export business cards. Try again?');
+      }
+    });
   }
 
   onCardTap(card: any): void {

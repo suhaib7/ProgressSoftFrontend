@@ -71,4 +71,21 @@
   </div>
 </div>
 
+<div class="export-container mb-4 p-4 bg-gray-100 rounded-lg shadow" style="display: flex; justify-content: center; margin-bottom: 10%;">
+  <div class="flex flex-wrap gap-3">
+    <div class="form-group">
+      <label for="exportFormat" class="block text-sm font-medium text-black mb-1">Format</label>
+      <select id="exportFormat" [(ngModel)]="exportFormat" class="p-2 border rounded">
+        <option value="csv">CSV</option>
+        <option value="xml">XML</option>
+      </select>
+    </div>
+    <div class="form-group self-end">
+      <button (click)="exportBusinessCards()" class="px-4 py-2 bg-green-600 text-gray-700 rounded hover:bg-green-700" style="background-color: lightseagreen;">
+        Export Business Cards
+      </button>
+    </div>
+  </div>
+</div>
+
 <app-file-import></app-file-import>
